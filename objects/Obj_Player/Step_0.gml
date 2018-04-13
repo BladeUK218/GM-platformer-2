@@ -42,6 +42,6 @@ if (!place_meeting(x,y+1,Obj_Wall))
 {
 	sprite_index = spr_PlayerA;
 	image_speed = 0;
-	if (sign(vsp) > 0) image_index = 1; else image_index = 0;
+	if (sign(vsp) < 0) image_index = 1; else image_index = 0;
 
 }
