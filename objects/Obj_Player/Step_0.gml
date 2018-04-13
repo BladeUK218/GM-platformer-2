@@ -10,38 +10,50 @@ hsp = move * walksp;
 
 vsp = vsp + grv;
 
-if (place_meeting(x,y+1,Obj_Wall)) && (key_jump)
+
+if (key_jump) // If jump key pressed, jump
 {
 	vsp = -7;
 }	
 
-//Horizontal Collision
-if (place_meeting(x+hsp,y,Obj_Wall))
-{
-	while (!place_meeting(x+sign (hsp),y,Obj_Wall))
-	{
-		x = x + sign (hsp);
-	}		
+if (place_meeting(x+hsp, y, Obj_Wall)) // Horizontal collision, if the player is about to walk into a wall
+{	
 	hsp = 0;	
-}		
-x = x + hsp;
-
-//Virtical Collision
-if (place_meeting(x,y+vsp,Obj_Wall))
+}
+else
 {
-	while (!place_meeting(x,y+sign(vsp),Obj_Wall))
-	{
-		y = y + sign (vsp);
-	}		
-	vsp = 0;	
-}	
-y = y + vsp;
+	x = x + hsp;
+}
 
-//Animation
-if (!place_meeting(x,y+1,Obj_Wall))
+if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical collision
+{	
+	vsp = 0;	
+}
+else
+{
+	y = y + vsp;
+}
+
+// If vertical is < 0 (a.k.a) you're going upwards
+// We want spr_PlayerA with index 0
+if (vsp < 0)
 {
 	sprite_index = spr_PlayerA;
+	image_index = 0;
 	image_speed = 0;
-	if (sign(vsp) > 0) image_index = 1; else image_index = 0;
+}
 
+// If vertical is > 0 (a.k.a) you're going downwards
+// We want spr_PlayerA with index 1
+if (vsp < 0)
+{
+	sprite_index = spr_PlayerA;
+	image_index = 1;
+	image_speed = 0;
+}
+
+if (vsp == 0)
+{
+	sprite_index = spr_Player;
+	image_index = 0;
 }
