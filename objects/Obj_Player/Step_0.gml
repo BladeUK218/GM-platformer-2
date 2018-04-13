@@ -31,6 +31,5 @@ if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical Collision
 	vsp = 0;
 }
 
-
 x += hsp; // Applying motion to characters
 y += vsp;
