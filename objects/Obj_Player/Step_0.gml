@@ -1,59 +1,36 @@
-//Get Player Input
-key_left = keyboard_check (vk_left);
-key_right = keyboard_check (vk_right);
-key_jump = keyboard_check_pressed (vk_space);
+key_right = keyboard_check(vk_right);
+key_left = keyboard_check(vk_left);
+key_jump = keyboard_check_pressed(vk_space);
 
-//Calculate Movement
-var move = key_right - key_left;
+move = key_right - key_left; // Rightward movement is positive
+hsp = move * walkspeed;
 
-hsp = move * walksp;
+if (vsp < 10) vsp += grv; // Upward motion is negative vertical speed
 
-vsp = vsp + grv;
-
-
-if (key_jump) // If jump key pressed, jump
+if(place_meeting(x, y+1, Obj_Wall))
 {
-	vsp = -7;
-}	
-
-if (place_meeting(x+hsp, y, Obj_Wall)) // Horizontal collision, if the player is about to walk into a wall
-{	
-	hsp = 0;	
-}
-else
-{
-	x = x + hsp;
+	vsp = key_jump * -jumpspeed;
 }
 
-if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical collision
-{	
-	vsp = 0;	
-}
-else
+
+if (place_meeting(x+hsp, y, Obj_Wall)) // Horizontal Collision
 {
-	y = y + vsp;
+	while(!place_meeting(x+sign(hsp), y, Obj_Wall))
+	{
+		x+= sign(hsp);
+	}
+	hsp = 0;
 }
 
-// If vertical is < 0 (a.k.a) you're going upwards
-// We want spr_PlayerA with index 0
-if (vsp < 0)
+if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical Collision
 {
-	sprite_index = spr_PlayerA;
-	image_index = 0;
-	image_speed = 0;
+	while(!place_meeting(x, y+sign(vsp), Obj_Wall))
+	{
+		y+= sign(vsp);
+	}
+	vsp = 0;
 }
 
-// If vertical is > 0 (a.k.a) you're going downwards
-// We want spr_PlayerA with index 1
-if (vsp < 0)
-{
-	sprite_index = spr_PlayerA;
-	image_index = 1;
-	image_speed = 0;
-}
 
-if (vsp == 0)
-{
-	sprite_index = spr_Player;
-	image_index = 0;
-}
+x += hsp; // Applying motion to characters
+y += vsp;
