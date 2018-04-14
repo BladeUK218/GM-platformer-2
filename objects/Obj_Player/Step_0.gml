@@ -1,6 +1,7 @@
 key_right = keyboard_check(vk_right);
 key_left = keyboard_check(vk_left);
 key_jump = keyboard_check_pressed(vk_space);
+key_idle = keyboard_check (vk_nokey);
 
 move = key_right - key_left; // Rightward movement is positive
 hsp = move * walkspeed;
@@ -33,3 +34,13 @@ if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical Collision
 
 x += hsp; // Applying motion to characters
 y += vsp;
+
+//Animation Motion
+
+if (keyboard_check (vk_right)) {
+	sprite_index = spr_PlayerR;
+}
+
+if (keyboard_check (vk_left)) {
+	sprite_index = spr_PlayerL;
+	}
