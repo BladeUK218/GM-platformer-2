@@ -6,7 +6,7 @@ key_idle = keyboard_check (vk_nokey);
 move = key_right - key_left; // Rightward movement is positive
 hsp = move * walkspeed;
 
-if (vsp < 10) vsp += grv; // Upward motion is negative vertical speed
+// if (vsp < 10) vsp += grv; // Upward motion is negative vertical speed
 
 if(place_meeting(x, y+1, Obj_Wall))
 {
@@ -37,10 +37,8 @@ y += vsp;
 
 //Animation Motion
 
-if (keyboard_check (vk_right)) {
+if (key_right)
 	sprite_index = spr_PlayerR;
-}
 
-if (keyboard_check (vk_left)) {
+if (key_left)
 	sprite_index = spr_PlayerL;
-	}
