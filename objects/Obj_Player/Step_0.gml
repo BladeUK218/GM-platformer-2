@@ -1,47 +1,44 @@
-//Get Player Input
-key_left = keyboard_check (vk_left);
-key_right = keyboard_check (vk_right);
-key_jump = keyboard_check_pressed (vk_space);
+key_right = keyboard_check(vk_right);
+key_left = keyboard_check(vk_left);
+key_jump = keyboard_check_pressed(vk_space);
+key_idle = keyboard_check (vk_nokey);
 
-//Calculate Movement
-var move = key_right - key_left;
+move = key_right - key_left; // Rightward movement is positive
+hsp = move * walkspeed;
 
-hsp = move * walksp;
+// if (vsp < 10) vsp += grv; // Upward motion is negative vertical speed
 
-vsp = vsp + grv;
-
-if (place_meeting(x,y+1,Obj_Wall)) && (key_jump)
+if(place_meeting(x, y+1, Obj_Wall))
 {
-	vsp = -7;
-}	
-
-//Horizontal Collision
-if (place_meeting(x+hsp,y,Obj_Wall))
-{
-	while (!place_meeting(x+sign (hsp),y,Obj_Wall))
-	{
-		x = x + sign (hsp);
-	}		
-	hsp = 0;	
-}		
-x = x + hsp;
-
-//Virtical Collision
-if (place_meeting(x,y+vsp,Obj_Wall))
-{
-	while (!place_meeting(x,y+sign(vsp),Obj_Wall))
-	{
-		y = y + sign (vsp);
-	}		
-	vsp = 0;	
-}	
-y = y + vsp;
-
-//Animation
-if (!place_meeting(x,y+1,Obj_Wall))
-{
-	sprite_index = spr_PlayerA;
-	image_speed = 0;
-	if (sign(vsp) < 0) image_index = 1; else image_index = 0;
-
+	vsp = key_jump * -jumpspeed;
 }
+
+
+if (place_meeting(x+hsp, y, Obj_Wall)) // Horizontal Collision
+{
+	while(!place_meeting(x+sign(hsp), y, Obj_Wall))
+	{
+		x+= sign(hsp);
+	}
+	hsp = 0;
+}
+
+if (place_meeting(x, y+vsp, Obj_Wall)) // Vertical Collision
+{
+	while(!place_meeting(x, y+sign(vsp), Obj_Wall))
+	{
+		y+= sign(vsp);
+	}
+	vsp = 0;
+}
+
+x += hsp; // Applying motion to characters
+y += vsp;
+
+//Animation Motion
+
+if (key_right)
+	sprite_index = spr_PlayerR;
+
+if (key_left)
+	sprite_index = spr_PlayerL;
